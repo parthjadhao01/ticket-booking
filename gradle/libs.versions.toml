@@ -4,7 +4,9 @@
 [versions]
 guava = "33.5.0-jre"
 junit = "4.13.2"
+jackson = "2.18.2"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit = { module = "junit:junit", version.ref = "junit" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
