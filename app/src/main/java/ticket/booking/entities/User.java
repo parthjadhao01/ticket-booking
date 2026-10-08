@@ -10,12 +10,16 @@ public class User{
     private List<Ticket> ticketsBooked;
     private String userId;
 
-    User(String username,String password ,String hashedpassword,List<Ticket> ticketsBooked,String userId){
+    public User(String username,String password ,String hashedpassword,List<Ticket> ticketsBooked,String userId){
         this.usernmae = username;
         this.password = password;
         this.hashedpassword = hashedpassword;
         this.ticketsBooked = ticketsBooked;
         this.userId = userId;
+    }
+
+    public List<Ticket> getTicketsBooked(){
+        return ticketsBooked;
     }
 
     public String getName(){
@@ -30,10 +34,14 @@ public class User{
         return this.password;
     }
 
-    public void getListTicket(){
+    public void getBooking(){
         for(int i = 0; i < ticketsBooked.size(); i++){
             System.out.println(ticketsBooked.get(i).getTicketInfo());
         }
+    }
+
+    public String getUserId(){
+        return this.userId;
     }
 
     public void setName(String username){
@@ -49,7 +57,7 @@ public class User{
     }
 
 //    implement setter of ticket List
-    public void setListTicket(){
+    public void setBooking(){
         for(int i = 0; i < ticketsBooked.size(); i++){
             System.out.println(ticketsBooked.get(i).getTicketInfo());
         }
