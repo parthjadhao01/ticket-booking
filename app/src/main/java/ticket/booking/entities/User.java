@@ -1,17 +1,28 @@
 package ticket.booking.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 public class User{
-    private String usernmae;
+    private String username;
     private String hashedpassword;
+
+    @JsonIgnore
     private String password;
+
     private List<Ticket> ticketsBooked;
     private String userId;
 
+    // Jackson needs a constructor with no arguments: when reading users.json it first creates
+    // an empty User, then fills in each field using the setters/fields.
+    // Without this, loading any user from the file fails.
+    public User(){
+    }
+
     public User(String username,String password ,String hashedpassword,List<Ticket> ticketsBooked,String userId){
-        this.usernmae = username;
+        this.username = username;
         this.password = password;
         this.hashedpassword = hashedpassword;
         this.ticketsBooked = ticketsBooked;
@@ -23,18 +34,23 @@ public class User{
     }
 
     public String getName(){
-        return this.usernmae;
+        return this.username;
     }
 
     public String getHashedpassword(){
         return this.hashedpassword;
     }
 
+    @JsonIgnore
     public String getPassword(){
         return this.password;
     }
 
     public void getBooking(){
+        if (ticketsBooked == null || ticketsBooked.isEmpty()) {
+            System.out.println("No bookings found");
+            return;
+        }
         for(int i = 0; i < ticketsBooked.size(); i++){
             System.out.println(ticketsBooked.get(i).getTicketInfo());
         }
@@ -45,22 +61,24 @@ public class User{
     }
 
     public void setName(String username){
-        this.usernmae = username;
+        this.username = username;
     }
 
     public void setHashedpassword(String hashedpassword){
         this.hashedpassword = hashedpassword;
     }
 
+    @JsonIgnore
     public void setPassword(String password){
          this.password = password;
     }
 
-//    implement setter of ticket List
-    public void setBooking(){
-        for(int i = 0; i < ticketsBooked.size(); i++){
-            System.out.println(ticketsBooked.get(i).getTicketInfo());
-        }
+    public void setTicketsBooked(List<Ticket> ticketsBooked){
+        this.ticketsBooked = ticketsBooked;
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId;
     }
 
 

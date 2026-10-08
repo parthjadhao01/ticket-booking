@@ -38,3 +38,11 @@ application {
     // Define the main class for the application.
     mainClass = 'ticket.booking.App'
 }
+
+run {
+    // Start the program from the project root (not the app/ folder), so relative paths like
+    // "app/src/main/java/ticket/booking/localDB/users.json" point to the right file.
+    workingDir = rootProject.projectDir
+    // Pass your keyboard input through to the program, so Scanner can read it.
+    standardInput = System.in
+}

@@ -35,6 +35,9 @@ public class App {
             System.out.println("5. Book a ticket");
             System.out.println("6. Cancel my booking");
             System.out.println("7.Exit the app");
+            if (!sc.hasNextInt()) {
+                break;
+            }
             option = sc.nextInt();
             switch (option){
                 case 1 :
