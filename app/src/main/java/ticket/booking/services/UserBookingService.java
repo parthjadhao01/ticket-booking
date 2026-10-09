@@ -2,6 +2,7 @@ package ticket.booking.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ticket.booking.entities.Ticket;
 import ticket.booking.entities.User;
 import ticket.booking.utils.UserServiceUtils;
 
@@ -22,8 +23,7 @@ public class UserBookingService {
 
     private void loadUserListFromFile() throws IOException {
         File users = new File(USER_DB_PATH);
-        // A missing or empty file just means "no users yet" - start with an empty list
-        // instead of crashing (Jackson can't read a 0-byte file).
+
         if (!users.exists() || users.length() == 0) {
             userList = new ArrayList<>();
             return;
@@ -40,7 +40,7 @@ public class UserBookingService {
         loadUserListFromFile();
     }
 
-    private boolean isLoggedIn() {
+    public boolean isLoggedIn() {
         if (user == null) {
             System.out.println("Please login first");
             return false;
@@ -94,6 +94,36 @@ public class UserBookingService {
             return;
         }
         this.user.getBooking();
+    }
+
+
+    public Boolean addTicket(Ticket ticket) {
+        if (!isLoggedIn()) {
+            return Boolean.FALSE;
+        }
+
+        ticket.setUserId(user.getUserId());
+        if (user.getTicketsBooked() == null) {
+            user.setTicketsBooked(new ArrayList<>());
+        }
+        user.getTicketsBooked().add(ticket);
+        try {
+            saveUserListToFile();
+            return Boolean.TRUE;
+        } catch (IOException ex) {
+            user.getTicketsBooked().remove(ticket);   // undo, so memory matches the file
+            return Boolean.FALSE;
+        }
+    }
+
+    public Ticket findTicket(String ticketId) {
+        if (!isLoggedIn() || ticketId == null || user.getTicketsBooked() == null) {
+            return null;
+        }
+        return user.getTicketsBooked().stream()
+                .filter(t -> ticketId.equals(t.getTicketId()))
+                .findFirst()
+                .orElse(null);
     }
 
     public Boolean cancelBooking(String ticketId) {

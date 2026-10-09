@@ -1,5 +1,7 @@
 package ticket.booking.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class Ticket {
@@ -8,6 +10,24 @@ public class Ticket {
     private String source;
     private String destination;
     private Date dateOfTravel;
+    private String trainId;
+    private int seatRow;
+    private int seatColumn;
+
+    public Ticket(){
+    }
+
+    public Ticket(String ticketId, String userId, String source, String destination, Date dateOfTravel,
+                  String trainId, int seatRow, int seatColumn){
+        this.ticketId = ticketId;
+        this.userId = userId;
+        this.source = source;
+        this.destination = destination;
+        this.dateOfTravel = dateOfTravel;
+        this.trainId = trainId;
+        this.seatRow = seatRow;
+        this.seatColumn = seatColumn;
+    }
 
     public String getTicketId(){
         return this.ticketId;
@@ -29,8 +49,22 @@ public class Ticket {
         return this.dateOfTravel;
     }
 
+    public String getTrainId(){
+        return this.trainId;
+    }
+
+    public int getSeatRow(){
+        return this.seatRow;
+    }
+
+    public int getSeatColumn(){
+        return this.seatColumn;
+    }
+
+    @JsonIgnore
     public String getTicketInfo(){
-        return this.ticketId + " " + this.userId + " " + this.source + " " + this.destination + " " + this.dateOfTravel;
+        return "Ticket id: " + this.ticketId + " | " + this.source + " -> " + this.destination
+                + " | " + this.dateOfTravel + " | seat: " + this.seatRow + " " + this.seatColumn;
     }
 
     public void setTicketId(String ticketId){
@@ -51,6 +85,18 @@ public class Ticket {
 
     public void setDateOfTravel(Date dateOfTravel){
         this.dateOfTravel = dateOfTravel;
+    }
+
+    public void setTrainId(String trainId){
+        this.trainId = trainId;
+    }
+
+    public void setSeatRow(int seatRow){
+        this.seatRow = seatRow;
+    }
+
+    public void setSeatColumn(int seatColumn){
+        this.seatColumn = seatColumn;
     }
 
 
